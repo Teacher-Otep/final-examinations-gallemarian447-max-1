@@ -1,38 +1,63 @@
-//fucntion to show selected section
-function showSection(sectionID){
-    //initially, select all sections
-    // use querySelectorAll for all sections with class content and homecontent
-    const sections = document.querySelectorAll('.content');
-    const homesection = document.querySelectorAll('.homecontent');
-
-    //hide the resulting content sections using foreach
-    sections.forEach(section => {
-        section.style.display='none';
+function showSection(sectionID) {
+    document.querySelectorAll('.content, .homecontent').forEach(section => {
+        section.style.display = 'none';
     });
-
-
-    //select the section that would
-    //be displayed when clicked
     const activeSection = document.getElementById(sectionID);
-    if(activeSection){
-        activeSection.style.display='block';
+    if (activeSection) {
+        activeSection.style.display = 'block';
     }
 }
 
-//for the insertion success
+document.getElementById("createBtn").addEventListener("click", () => showSection("create"));
+document.getElementById("readBtn").addEventListener("click", () => showSection("read"));
+document.getElementById("updateBtn").addEventListener("click", () => showSection("update"));
+document.getElementById("deleteBtn").addEventListener("click", () => showSection("delete"));
+
+document.getElementById("logo").addEventListener("click", () => {
+    document.querySelectorAll(".content, .homecontent").forEach(section => {
+        section.style.display = "none";
+    });
+    const welcomeSection = document.getElementById("home");
+    if (welcomeSection) {
+        welcomeSection.style.display = "block";
+    }
+});
+
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('status') === 'success') {
         const toast = document.getElementById('success-toast');
         toast.classList.remove('toast-hidden');
-        
-        // Hide it automatically after 3 seconds
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => toast.classList.add('toast-hidden'), 500);
         }, 3000);
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
 
-        // Clean the URL
+document.getElementById("clrbtn").addEventListener("click", () => {
+    document.querySelectorAll(".field").forEach(field => {
+        field.value = "";
+    });
+});
+window.onload = function() {
+    document.querySelectorAll(".content, .homecontent").forEach(section => {
+        section.style.display = "none";
+    });
+    const welcomeSection = document.getElementById("home");
+    if (welcomeSection) {
+        welcomeSection.style.display = "block";
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'success') {
+        const toast = document.getElementById('success-toast');
+        toast.classList.remove('toast-hidden');
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.classList.add('toast-hidden'), 500);
+        }, 3000);
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
